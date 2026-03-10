@@ -1,0 +1,94 @@
+{
+  "name": "gologin-web-access-skill",
+  "description": "Access the web using Gologin scraping and browser infrastructure",
+  "repository": "https://github.com/GologinLabs/gologin-web-access",
+  "cli": "gologin-web-access",
+  "keywords": [
+    "gologin",
+    "web access",
+    "web scraping",
+    "scraping",
+    "browser",
+    "browser automation",
+    "cloud browser",
+    "interactive browsing",
+    "browser sessions",
+    "web unlocker",
+    "snapshot",
+    "ref-based interaction",
+    "login flows",
+    "agent tools",
+    "ai agents"
+  ],
+  "tool_groups": [
+    "scraping",
+    "browser"
+  ],
+  "tools": [
+    {
+      "name": "scrape_url",
+      "group": "scraping",
+      "command": "gologin-web-access scrape"
+    },
+    {
+      "name": "scrape_markdown",
+      "group": "scraping",
+      "command": "gologin-web-access scrape-markdown"
+    },
+    {
+      "name": "scrape_text",
+      "group": "scraping",
+      "command": "gologin-web-access scrape-text"
+    },
+    {
+      "name": "scrape_json",
+      "group": "scraping",
+      "command": "gologin-web-access scrape-json"
+    },
+    {
+      "name": "batch_scrape",
+      "group": "scraping",
+      "command": "gologin-web-access batch-scrape"
+    },
+    {
+      "name": "browser_open",
+      "group": "browser",
+      "command": "gologin-web-access open"
+    },
+    {
+      "name": "browser_snapshot",
+      "group": "browser",
+      "command": "gologin-web-access snapshot"
+    },
+    {
+      "name": "browser_click",
+      "group": "browser",
+      "command": "gologin-web-access click"
+    },
+    {
+      "name": "browser_type",
+      "group": "browser",
+      "command": "gologin-web-access type"
+    },
+    {
+      "name": "browser_screenshot",
+      "group": "browser",
+      "command": "gologin-web-access screenshot"
+    },
+    {
+      "name": "browser_close",
+      "group": "browser",
+      "command": "gologin-web-access close"
+    },
+    {
+      "name": "browser_sessions",
+      "group": "browser",
+      "command": "gologin-web-access sessions"
+    },
+    {
+      "name": "browser_current",
+      "group": "browser",
+      "command": "gologin-web-access current"
+    }
+  ]
+}
