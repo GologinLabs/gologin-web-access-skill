@@ -61,15 +61,17 @@ It does not implement scraping or browser automation itself. It delegates to:
 - Capture artifacts with `browser_screenshot`
 - End sessions with `browser_close`
 
-## Installation
+## Required CLI
 
-Option 1: install globally
+This section is about the CLI requirement, not skill installation.
+
+Install the CLI globally:
 
 ```bash
 npm install -g gologin-web-access
 ```
 
-Option 2: run with `npx`
+Or run the CLI with `npx`:
 
 ```bash
 npx gologin-web-access scrape-markdown https://example.com
