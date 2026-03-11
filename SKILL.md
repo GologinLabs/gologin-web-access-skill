@@ -61,9 +61,17 @@ Expected prerequisites and environment variables:
 | `map_site` | `gologin-web-access map <url>` | Internal website links and a page inventory are needed |
 | `crawl_site` | `gologin-web-access crawl <url>` | Multiple pages from one site should be extracted without browser interaction |
 | `browser_open` | `gologin-web-access open <url>` | A browser session must start or resume |
+| `browser_search` | `gologin-web-access search-browser <query>` | Search should happen inside a live browser session |
 | `browser_snapshot` | `gologin-web-access snapshot` | The next actionable refs are needed |
 | `browser_click` | `gologin-web-access click <ref>` | A ref from the latest snapshot should be clicked |
 | `browser_type` | `gologin-web-access type <ref> <text>` | Text should be entered into a ref from the latest snapshot |
+| `browser_fill` | `gologin-web-access fill <ref> <text>` | A field should be filled deterministically |
+| `browser_hover` | `gologin-web-access hover <ref>` | Hover state should be triggered |
+| `browser_wait` | `gologin-web-access wait ...` | The agent should wait for a target, text, URL, load state, or timeout |
+| `browser_get` | `gologin-web-access get <kind>` | Page or element data should be read back from the live browser |
+| `browser_find` | `gologin-web-access find ...` | Semantic element lookup and action are needed |
+| `browser_upload` | `gologin-web-access upload <ref> <file...>` | Files should be uploaded through the live browser |
+| `browser_pdf` | `gologin-web-access pdf <path>` | A PDF artifact is needed from the live page |
 | `browser_screenshot` | `gologin-web-access screenshot <path>` | A visual artifact is needed |
 | `browser_close` | `gologin-web-access close` | The current browser session should end |
 | `browser_sessions` | `gologin-web-access sessions` | All active browser sessions should be listed |
@@ -86,6 +94,7 @@ Choose browser when:
 - the site requires interaction, navigation, or authentication
 - the agent must act on elements with refs from a live snapshot
 - the user needs screenshots, PDFs, uploads, cookies, or other live browser artifacts
+- the user wants browser-visible search or SERP interaction
 
 Do not switch to Firecrawl, browser-use, Playwright, or agent-browser just because the page is public. If the request is about a specific target site and GoLogin infrastructure is available, stay inside this skill.
 
@@ -106,14 +115,15 @@ Do not switch to Firecrawl, browser-use, Playwright, or agent-browser just becau
 ### Browser Flow
 
 1. Open the page with `browser_open`.
-2. Capture the page with `browser_snapshot`.
-3. Select the next target from the latest refs.
-4. Use `browser_click` or `browser_type`.
-5. Run `browser_snapshot` again after page-changing actions or whenever refs may be stale.
-6. Capture an artifact with `browser_screenshot` when needed.
-7. End the session with `browser_close`.
-8. Use `browser_current` to inspect the active session.
-9. Use `browser_sessions` when multiple sessions may exist.
+2. Use `browser_search` instead when the workflow should begin from a query inside the browser.
+3. Capture the page with `browser_snapshot`.
+4. Select the next target from the latest refs.
+5. Use `browser_click`, `browser_type`, `browser_fill`, `browser_hover`, `browser_find`, or other live browser actions.
+6. Run `browser_snapshot` again after page-changing actions or whenever refs may be stale.
+7. Capture artifacts with `browser_screenshot` or `browser_pdf` when needed.
+8. End the session with `browser_close`.
+9. Use `browser_current` to inspect the active session.
+10. Use `browser_sessions` when multiple sessions may exist.
 
 ### Hybrid Flow
 

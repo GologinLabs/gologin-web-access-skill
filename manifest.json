@@ -76,6 +76,11 @@
       "command": "gologin-web-access open"
     },
     {
+      "name": "browser_search",
+      "group": "browser",
+      "command": "gologin-web-access search-browser"
+    },
+    {
       "name": "browser_snapshot",
       "group": "browser",
       "command": "gologin-web-access snapshot"
@@ -89,6 +94,41 @@
       "name": "browser_type",
       "group": "browser",
       "command": "gologin-web-access type"
+    },
+    {
+      "name": "browser_fill",
+      "group": "browser",
+      "command": "gologin-web-access fill"
+    },
+    {
+      "name": "browser_hover",
+      "group": "browser",
+      "command": "gologin-web-access hover"
+    },
+    {
+      "name": "browser_wait",
+      "group": "browser",
+      "command": "gologin-web-access wait"
+    },
+    {
+      "name": "browser_get",
+      "group": "browser",
+      "command": "gologin-web-access get"
+    },
+    {
+      "name": "browser_find",
+      "group": "browser",
+      "command": "gologin-web-access find"
+    },
+    {
+      "name": "browser_upload",
+      "group": "browser",
+      "command": "gologin-web-access upload"
+    },
+    {
+      "name": "browser_pdf",
+      "group": "browser",
+      "command": "gologin-web-access pdf"
     },
     {
       "name": "browser_screenshot",
