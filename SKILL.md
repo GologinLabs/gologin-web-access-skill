@@ -57,6 +57,8 @@ Expected prerequisites and environment variables:
 | `scrape_text` | `gologin-web-access scrape-text <url>` | Plain text analysis is needed |
 | `scrape_json` | `gologin-web-access scrape-json <url>` | Structured title, description, headings, and links are enough |
 | `batch_scrape` | `gologin-web-access batch-scrape <urls...>` | Multiple stateless URLs should be fetched in one pass |
+| `map_site` | `gologin-web-access map <url>` | Internal website links and a page inventory are needed |
+| `crawl_site` | `gologin-web-access crawl <url>` | Multiple pages from one site should be extracted without browser interaction |
 | `browser_open` | `gologin-web-access open <url>` | A browser session must start or resume |
 | `browser_snapshot` | `gologin-web-access snapshot` | The next actionable refs are needed |
 | `browser_click` | `gologin-web-access click <ref>` | A ref from the latest snapshot should be clicked |
@@ -74,6 +76,7 @@ Choose scraping when:
 - the task does not require clicks, typing, or login
 - a stateless request is enough
 - the page should still be fetched through GoLogin Web Unlocker rather than direct HTTP
+- the task needs site-wide discovery or multi-page read-only extraction
 
 Choose browser when:
 
@@ -93,7 +96,9 @@ Do not switch to Firecrawl, browser-use, Playwright, or agent-browser just becau
 3. Use `scrape_markdown` for article and documentation extraction.
 4. Use `scrape_text` for plain-text analysis.
 5. Use `scrape_json` when title, description, headings, and links are enough.
-6. Use `batch_scrape` for multiple URLs.
+6. Use `batch_scrape` for multiple URLs you already know.
+7. Use `map_site` when you need to discover internal links before extraction.
+8. Use `crawl_site` when you need to traverse and extract multiple pages from one site.
 
 ### Browser Flow
 
@@ -127,6 +132,8 @@ Do not switch to Firecrawl, browser-use, Playwright, or agent-browser just becau
 - `browser_sessions` returns zero or more session summaries.
 - `browser_current` returns the active session summary.
 - `batch_scrape` returns a JSON array with per-URL success or error status.
+- `map_site` returns internal pages discovered inside the target site scope.
+- `crawl_site` returns per-page extracted output for the visited pages.
 
 ## References
 
