@@ -57,6 +57,7 @@ Expected prerequisites and environment variables:
 | `scrape_text` | `gologin-web-access scrape-text <url>` | Plain text analysis is needed |
 | `scrape_json` | `gologin-web-access scrape-json <url>` | Structured title, description, headings, and links are enough |
 | `batch_scrape` | `gologin-web-access batch-scrape <urls...>` | Multiple stateless URLs should be fetched in one pass |
+| `search_web` | `gologin-web-access search <query>` | Search results or SERP discovery are needed before scraping |
 | `map_site` | `gologin-web-access map <url>` | Internal website links and a page inventory are needed |
 | `crawl_site` | `gologin-web-access crawl <url>` | Multiple pages from one site should be extracted without browser interaction |
 | `browser_open` | `gologin-web-access open <url>` | A browser session must start or resume |
@@ -77,6 +78,7 @@ Choose scraping when:
 - a stateless request is enough
 - the page should still be fetched through GoLogin Web Unlocker rather than direct HTTP
 - the task needs site-wide discovery or multi-page read-only extraction
+- the task starts from a query rather than a known URL
 
 Choose browser when:
 
@@ -97,8 +99,9 @@ Do not switch to Firecrawl, browser-use, Playwright, or agent-browser just becau
 4. Use `scrape_text` for plain-text analysis.
 5. Use `scrape_json` when title, description, headings, and links are enough.
 6. Use `batch_scrape` for multiple URLs you already know.
-7. Use `map_site` when you need to discover internal links before extraction.
-8. Use `crawl_site` when you need to traverse and extract multiple pages from one site.
+7. Use `search_web` when you need search discovery before picking URLs.
+8. Use `map_site` when you need to discover internal links before extraction.
+9. Use `crawl_site` when you need to traverse and extract multiple pages from one site.
 
 ### Browser Flow
 
@@ -132,6 +135,7 @@ Do not switch to Firecrawl, browser-use, Playwright, or agent-browser just becau
 - `browser_sessions` returns zero or more session summaries.
 - `browser_current` returns the active session summary.
 - `batch_scrape` returns a JSON array with per-URL success or error status.
+- `search_web` returns structured search results from Google SERP pages fetched through Web Unlocker.
 - `map_site` returns internal pages discovered inside the target site scope.
 - `crawl_site` returns per-page extracted output for the visited pages.
 

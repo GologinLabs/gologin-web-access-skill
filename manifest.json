@@ -56,6 +56,11 @@
       "command": "gologin-web-access batch-scrape"
     },
     {
+      "name": "search_web",
+      "group": "scraping",
+      "command": "gologin-web-access search"
+    },
+    {
       "name": "map_site",
       "group": "scraping",
       "command": "gologin-web-access map"
