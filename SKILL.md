@@ -56,6 +56,7 @@ Expected prerequisites and environment variables:
 - `GOLOGIN_WEB_UNLOCKER_API_KEY` for scraping tools
 - `GOLOGIN_CLOUD_TOKEN` for browser tools
 - `GOLOGIN_DEFAULT_PROFILE_ID` as an optional default profile for browser sessions
+- Prefer `gologin-web-access config init` for local persistent setup when the user keeps re-exporting env vars in every shell
 
 ## Tool Map
 
@@ -69,8 +70,8 @@ Expected prerequisites and environment variables:
 | `batch_scrape` | `gologin-web-access batch-scrape <urls...> [--retry <n>] [--backoff-ms <ms>] [--summary] [--only-main-content]` | Multiple stateless URLs should be fetched in one pass, with retry controls, optional one-line summary output, per-URL structured envelopes for `--format json`, and optional readable main-content extraction |
 | `search_web` | `gologin-web-access search <query> [--source auto|unlocker|browser]` | Search discovery is needed before scraping and the CLI should try multiple search paths automatically while returning attempts and limit/warning metadata |
 | `map_site` | `gologin-web-access map <url> [--strict]` | Internal website links and a page inventory are needed, with usable partial results by default |
-| `crawl_site` | `gologin-web-access crawl <url> [--strict]` | Multiple pages from one site should be extracted without browser interaction, with usable partial results by default |
-| `crawl_site_async` | `gologin-web-access crawl-start <url>` | A crawl should run detached and be checked later |
+| `crawl_site` | `gologin-web-access crawl <url> [--strict] [--only-main-content]` | Multiple pages from one site should be extracted without browser interaction, with usable partial results by default and optional readable main-content output |
+| `crawl_site_async` | `gologin-web-access crawl-start <url> [--only-main-content]` | A crawl should run detached and be checked later |
 | `extract_structured` | `gologin-web-access extract <url> --schema <schema.json> [--source auto|unlocker|browser]` | Deterministic structured extraction is needed, including JS-heavy pages that may require browser rendering |
 | `track_changes` | `gologin-web-access change-track <url>` | The agent should compare a page against the last stored snapshot |
 | `parse_document` | `gologin-web-access parse-document <url-or-path>` | A PDF, DOCX, XLSX, HTML, or local document should be parsed |
@@ -150,8 +151,8 @@ Do not switch to Firecrawl, browser-use, Playwright, or agent-browser just becau
 10. Add `--retry`, `--backoff-ms`, and `--timeout-ms` when the target is flaky or prone to `429` and timeout failures.
 11. Use `search_web` when you need search discovery before picking URLs. Prefer the default `--source auto` mode unless the user explicitly wants browser-only or unlocker-only search.
 12. Use `map_site` when you need to discover internal links before extraction.
-13. Use `crawl_site` when you need to traverse and extract multiple pages from one site.
-14. Use `crawl_site_async` when the crawl should run in the background.
+13. Use `crawl_site` when you need to traverse and extract multiple pages from one site. Add `--only-main-content` when html, markdown, or text output should prioritize the readable fragment instead of full page chrome.
+14. Use `crawl_site_async` when the crawl should run in the background. It also accepts `--only-main-content`.
 15. Use `extract_structured` when a selector schema should shape the output. Prefer `--source auto` on JS-heavy docs sites.
 16. Use `track_changes` when the user cares about deltas over time.
 17. Use `parse_document` when the source is document-like instead of a normal HTML page.

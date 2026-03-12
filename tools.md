@@ -22,6 +22,7 @@ Repository:
 | `scrape_text` | `scrape-text` | `GOLOGIN_WEB_UNLOCKER_API_KEY` or `GOLOGIN_CLOUD_TOKEN` when `--source browser` is forced | Plain text, with `--source auto|unlocker|browser` |
 | `scrape_json` | `scrape-json` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Structured JSON with heading levels, render source, and retry metadata |
 | `batch_scrape` | `batch-scrape` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | JSON array with per-URL status, optional summary, structured envelopes for `--format json`, and optional main-content extraction |
+| `crawl_site` | `crawl` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Site crawl results with `status: ok|partial|failed`, and optional main-content extraction for html, markdown, and text output |
 | `browser_open` | `open` | `GOLOGIN_CLOUD_TOKEN` | Session summary |
 | `browser_snapshot` | `snapshot` | `GOLOGIN_CLOUD_TOKEN` | Snapshot with refs |
 | `browser_click` | `click` | `GOLOGIN_CLOUD_TOKEN` | Action status |
@@ -244,6 +245,23 @@ Several stateless URLs should be fetched in one pass.
 
 Notes:
 Add `--only-main-content` for html, markdown, or text batch runs when the goal is readable docs/article content rather than full page chrome.
+
+## crawl_site
+
+Purpose:
+Traverse multiple pages from one site through Web Unlocker.
+
+CLI:
+
+```bash
+gologin-web-access crawl "<url>" --format text --only-main-content
+```
+
+Returns:
+JSON with per-page crawl output and overall `status`.
+
+Use when:
+You need multi-page stateless extraction, and `--only-main-content` helps when the useful content is inside a specific article/docs region rather than the full page shell.
 
 ## browser_open
 
