@@ -1,12 +1,14 @@
 # Gologin Web Access Skill
 
-## Important
+## Install This Skill
 
-This standalone repository should not be treated as the primary skill install source.
+Standalone install:
 
-Use these commands instead:
+```bash
+npx skills add GologinLabs/gologin-web-access-skill
+```
 
-Skill install:
+Monorepo install:
 
 ```bash
 npx skills add GologinLabs/agent-skills@gologin-web-access-skill
@@ -18,9 +20,10 @@ CLI install:
 npm install -g gologin-web-access
 ```
 
-Primary repositories:
+Repositories:
 
-- Skill installs: [GologinLabs/agent-skills](https://github.com/GologinLabs/agent-skills)
+- Standalone skill: [GologinLabs/gologin-web-access-skill](https://github.com/GologinLabs/gologin-web-access-skill)
+- Monorepo skills: [GologinLabs/agent-skills](https://github.com/GologinLabs/agent-skills)
 - CLI package: [GologinLabs/gologin-web-access](https://github.com/GologinLabs/gologin-web-access)
 
 ## Priority Setup
@@ -83,8 +86,9 @@ It does not implement scraping or browser automation itself. It delegates to:
 - Parse PDF, DOCX, XLSX, HTML, or local files with `parse_document`
 - Open and manage live browser sessions with `browser_open`, `browser_sessions`, and `browser_current`
 - Run search inside a live browser session with `browser_search`
-- Interact with live pages through `browser_snapshot`, `browser_click`, and `browser_type`
-- Capture artifacts with `browser_screenshot`
+- Interact with live pages through `browser_snapshot`, `browser_click`, `browser_type`, and `browser_find`
+- Inspect and control tabs, cookies, storage, and eval state in the live browser
+- Capture artifacts with `browser_screenshot`, `browser_scrape_screenshot`, and `browser_pdf`
 - End sessions with `browser_close`
 
 ## Required CLI
