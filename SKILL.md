@@ -64,8 +64,8 @@ Expected prerequisites and environment variables:
 | `scrape_markdown` | `gologin-web-access scrape-markdown <url>` | Readable article or docs output is needed |
 | `scrape_text` | `gologin-web-access scrape-text <url>` | Plain text analysis is needed |
 | `scrape_json` | `gologin-web-access scrape-json <url> [--fallback browser]` | Structured title, description, headings, heading levels, and links are enough, with optional browser fallback for JS-heavy pages |
-| `batch_scrape` | `gologin-web-access batch-scrape <urls...> [--retry <n>] [--backoff-ms <ms>] [--summary]` | Multiple stateless URLs should be fetched in one pass, with retry controls and optional one-line summary output |
-| `search_web` | `gologin-web-access search <query> [--source auto|unlocker|browser]` | Search discovery is needed before scraping and the CLI should try multiple search paths automatically |
+| `batch_scrape` | `gologin-web-access batch-scrape <urls...> [--retry <n>] [--backoff-ms <ms>] [--summary]` | Multiple stateless URLs should be fetched in one pass, with retry controls, optional one-line summary output, and per-URL structured envelopes for `--format json` |
+| `search_web` | `gologin-web-access search <query> [--source auto|unlocker|browser]` | Search discovery is needed before scraping and the CLI should try multiple search paths automatically while returning attempts and limit/warning metadata |
 | `map_site` | `gologin-web-access map <url> [--strict]` | Internal website links and a page inventory are needed, with usable partial results by default |
 | `crawl_site` | `gologin-web-access crawl <url> [--strict]` | Multiple pages from one site should be extracted without browser interaction, with usable partial results by default |
 | `crawl_site_async` | `gologin-web-access crawl-start <url>` | A crawl should run detached and be checked later |
@@ -186,9 +186,9 @@ Do not switch to Firecrawl, browser-use, Playwright, or agent-browser just becau
 - `browser_click` and `browser_type` return command status that tells you whether the current snapshot is still fresh.
 - `browser_sessions` returns zero or more session summaries.
 - `browser_current` returns the active session summary.
-- `scrape_json` returns `headings` plus `headingsByLevel.h1` through `headingsByLevel.h6`.
-- `batch_scrape` returns a JSON array with per-URL success or error status and may print a short summary line when `--summary` is used.
-- `search_web` returns structured search results plus `attempts`, may auto-fallback across multiple search paths, and may include `cacheHit` when a recent local cache entry was reused.
+- `scrape_json` returns `headings` plus `headingsByLevel.h1` through `headingsByLevel.h6`, along with `renderSource`, fallback flags, and request retry metadata.
+- `batch_scrape` returns a JSON array with per-URL success or error status, includes structured scrape envelopes for `--format json`, and may print a short summary line when `--summary` is used.
+- `search_web` returns structured search results plus `attempts`, `requestedLimit`, `returnedCount`, `warnings`, `cacheTtlMs`, and may include `cacheHit` when a recent local cache entry was reused.
 - `map_site` returns internal pages discovered inside the target site scope plus `status: ok|partial|failed`.
 - `crawl_site` returns per-page extracted output for the visited pages plus `status: ok|partial|failed`.
 

@@ -19,8 +19,8 @@ Repository:
 | `scrape_url` | `scrape` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Rendered HTML |
 | `scrape_markdown` | `scrape-markdown` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Markdown |
 | `scrape_text` | `scrape-text` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Plain text |
-| `scrape_json` | `scrape-json` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Structured JSON with heading levels |
-| `batch_scrape` | `batch-scrape` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | JSON array, optional summary |
+| `scrape_json` | `scrape-json` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Structured JSON with heading levels, render source, and retry metadata |
+| `batch_scrape` | `batch-scrape` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | JSON array with per-URL status, optional summary, and structured envelopes for `--format json` |
 | `browser_open` | `open` | `GOLOGIN_CLOUD_TOKEN` | Session summary |
 | `browser_snapshot` | `snapshot` | `GOLOGIN_CLOUD_TOKEN` | Snapshot with refs |
 | `browser_click` | `click` | `GOLOGIN_CLOUD_TOKEN` | Action status |
@@ -98,6 +98,20 @@ Returns:
 {
   "url": "https://example.com",
   "status": 200,
+  "renderSource": "unlocker",
+  "fallbackAttempted": false,
+  "fallbackUsed": false,
+  "request": {
+    "attemptCount": 1,
+    "retryCount": 0,
+    "attempts": [
+      {
+        "attempt": 1,
+        "status": 200,
+        "retriable": false
+      }
+    ]
+  },
   "data": {
     "title": "Example Domain",
     "description": null,
@@ -143,14 +157,66 @@ Returns:
   {
     "url": "https://example.com/a",
     "ok": true,
-    "format": "markdown",
-    "output": "# Page A"
+    "format": "json",
+    "output": {
+      "url": "https://example.com/a",
+      "status": 200,
+      "renderSource": "unlocker",
+      "fallbackAttempted": false,
+      "fallbackUsed": false,
+      "request": {
+        "attemptCount": 1,
+        "retryCount": 0,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "retriable": false
+          }
+        ]
+      },
+      "data": {
+        "title": "Page A",
+        "description": null,
+        "canonical": null,
+        "meta": {},
+        "headings": [],
+        "headingsByLevel": {
+          "h1": [],
+          "h2": [],
+          "h3": [],
+          "h4": [],
+          "h5": [],
+          "h6": []
+        },
+        "links": []
+      }
+    }
   },
   {
     "url": "https://example.com/b",
     "ok": false,
-    "format": "markdown",
-    "error": "Web Unlocker request failed with status 403."
+    "format": "json",
+    "error": "Web Unlocker request failed with status 503.",
+    "status": 503,
+    "request": {
+      "attemptCount": 2,
+      "retryCount": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": 429,
+          "error": "Web Unlocker request failed with status 429.",
+          "retriable": true
+        },
+        {
+          "attempt": 2,
+          "status": 503,
+          "error": "Web Unlocker request failed with status 503.",
+          "retriable": false
+        }
+      ]
+    }
   }
 ]
 ```
