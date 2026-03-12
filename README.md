@@ -206,6 +206,8 @@ gologin-web-access click "@e2"
 
 The skill tool names stay stable even when the underlying CLI commands are shorter. See [`tools.md`](./tools.md) for the exact mapping.
 
+`search_web` now uses automatic multi-path fallback and may include `cacheHit` when a short-lived local search cache was reused.
+
 ## Examples
 
 - [`examples/simple-scraping.md`](./examples/simple-scraping.md): minimal single-page scraping

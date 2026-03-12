@@ -177,7 +177,7 @@ Do not switch to Firecrawl, browser-use, Playwright, or agent-browser just becau
 - `browser_sessions` returns zero or more session summaries.
 - `browser_current` returns the active session summary.
 - `batch_scrape` returns a JSON array with per-URL success or error status.
-- `search_web` returns structured search results plus `attempts`, and may auto-fallback across multiple search paths.
+- `search_web` returns structured search results plus `attempts`, may auto-fallback across multiple search paths, and may include `cacheHit` when a recent local cache entry was reused.
 - `map_site` returns internal pages discovered inside the target site scope plus `status: ok|partial|failed`.
 - `crawl_site` returns per-page extracted output for the visited pages plus `status: ok|partial|failed`.
 
