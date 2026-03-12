@@ -75,7 +75,14 @@ It does not implement scraping or browser automation itself. It delegates to:
 - Extract plain text with `scrape_text`
 - Extract structured metadata with `scrape_json`
 - Batch multiple pages with `batch_scrape`
+- Discover candidate pages with `search_web`
+- Map a site's internal links with `map_site`
+- Crawl a site with `crawl_site` and `crawl_site_async`
+- Extract deterministic structured data with `extract_structured`
+- Track page changes with `track_changes`
+- Parse PDF, DOCX, XLSX, HTML, or local files with `parse_document`
 - Open and manage live browser sessions with `browser_open`, `browser_sessions`, and `browser_current`
+- Run search inside a live browser session with `browser_search`
 - Interact with live pages through `browser_snapshot`, `browser_click`, and `browser_type`
 - Capture artifacts with `browser_screenshot`
 - End sessions with `browser_close`
@@ -118,6 +125,9 @@ Read a page:
 
 ```bash
 gologin-web-access scrape-markdown https://example.com
+gologin-web-access search "gologin antidetect browser" --limit 5 --source auto
+gologin-web-access map https://example.com --limit 50 --max-depth 2
+gologin-web-access crawl https://example.com --format markdown --limit 20 --max-depth 2
 ```
 
 Start browser interaction:
@@ -125,6 +135,7 @@ Start browser interaction:
 ```bash
 gologin-web-access open https://example.com
 gologin-web-access snapshot
+gologin-web-access search-browser "gologin antidetect browser"
 ```
 
 Typical snapshot output:
@@ -149,10 +160,15 @@ gologin-web-access click "@e2"
 | Extract article text | Scraping |
 | Pull headings and links | Scraping |
 | Batch several URLs | Scraping |
+| Find target pages from a query | Scraping |
+| Map all site links | Scraping |
+| Crawl an entire site | Scraping |
+| Extract structured JSON | Scraping |
 | Click buttons | Browser |
 | Fill forms | Browser |
 | Login flows | Browser |
 | Capture screenshots | Browser |
+| Search in a live SERP | Browser |
 | Inspect active browser sessions | Browser |
 
 ## Tool Groups
@@ -164,10 +180,18 @@ gologin-web-access click "@e2"
 - `scrape_text`
 - `scrape_json`
 - `batch_scrape`
+- `search_web`
+- `map_site`
+- `crawl_site`
+- `crawl_site_async`
+- `extract_structured`
+- `track_changes`
+- `parse_document`
 
 ### Browser
 
 - `browser_open`
+- `browser_search`
 - `browser_snapshot`
 - `browser_click`
 - `browser_type`
@@ -182,11 +206,13 @@ The skill tool names stay stable even when the underlying CLI commands are short
 
 - [`examples/simple-scraping.md`](./examples/simple-scraping.md): minimal single-page scraping
 - [`examples/scrape-only.md`](./examples/scrape-only.md): scrape-first pattern for read-only tasks
+- [`examples/search-and-crawl.md`](./examples/search-and-crawl.md): search-first discovery and crawl flow
 
 ## Workflows
 
 - [`workflows/browser-ref-loop.md`](./workflows/browser-ref-loop.md): the canonical snapshot -> ref -> action loop
 - [`workflows/hybrid-read-then-interact.md`](./workflows/hybrid-read-then-interact.md): start stateless, escalate to browser when needed
+- [`workflows/search-discover-and-scrape.md`](./workflows/search-discover-and-scrape.md): use search before choosing target URLs
 - [`workflows/login-and-navigate-dashboard.md`](./workflows/login-and-navigate-dashboard.md): login flow with snapshot refs
 - [`workflows/form-interaction-and-results.md`](./workflows/form-interaction-and-results.md): form submission and result extraction
 - [`workflows/scrape-multiple-pages.md`](./workflows/scrape-multiple-pages.md): batch scraping flow
