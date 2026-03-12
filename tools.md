@@ -17,8 +17,8 @@ Repository:
 | Skill tool | CLI command | Requires | Returns |
 | --- | --- | --- | --- |
 | `scrape_url` | `scrape` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Rendered HTML |
-| `scrape_markdown` | `scrape-markdown` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Markdown |
-| `scrape_text` | `scrape-text` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Plain text |
+| `scrape_markdown` | `scrape-markdown` | `GOLOGIN_WEB_UNLOCKER_API_KEY` or `GOLOGIN_CLOUD_TOKEN` when `--source browser` is forced | Markdown, with `--source auto|unlocker|browser` |
+| `scrape_text` | `scrape-text` | `GOLOGIN_WEB_UNLOCKER_API_KEY` or `GOLOGIN_CLOUD_TOKEN` when `--source browser` is forced | Plain text, with `--source auto|unlocker|browser` |
 | `scrape_json` | `scrape-json` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Structured JSON with heading levels, render source, and retry metadata |
 | `batch_scrape` | `batch-scrape` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | JSON array with per-URL status, optional summary, and structured envelopes for `--format json` |
 | `browser_open` | `open` | `GOLOGIN_CLOUD_TOKEN` | Session summary |
@@ -55,7 +55,7 @@ Read a page as markdown through Web Unlocker.
 CLI:
 
 ```bash
-gologin-web-access scrape-markdown "<url>"
+gologin-web-access scrape-markdown "<url>" [--source auto|unlocker|browser]
 ```
 
 Returns:
@@ -72,7 +72,7 @@ Read a page as plain text through Web Unlocker.
 CLI:
 
 ```bash
-gologin-web-access scrape-text "<url>"
+gologin-web-access scrape-text "<url>" [--source auto|unlocker|browser]
 ```
 
 Returns:
