@@ -17,10 +17,11 @@ Repository:
 | Skill tool | CLI command | Requires | Returns |
 | --- | --- | --- | --- |
 | `scrape_url` | `scrape` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Rendered HTML |
+| `read_page` | `read` | `GOLOGIN_WEB_UNLOCKER_API_KEY` or `GOLOGIN_CLOUD_TOKEN` when `--source browser` is forced | Main-content-first html, markdown, or text |
 | `scrape_markdown` | `scrape-markdown` | `GOLOGIN_WEB_UNLOCKER_API_KEY` or `GOLOGIN_CLOUD_TOKEN` when `--source browser` is forced | Markdown, with `--source auto|unlocker|browser` |
 | `scrape_text` | `scrape-text` | `GOLOGIN_WEB_UNLOCKER_API_KEY` or `GOLOGIN_CLOUD_TOKEN` when `--source browser` is forced | Plain text, with `--source auto|unlocker|browser` |
 | `scrape_json` | `scrape-json` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Structured JSON with heading levels, render source, and retry metadata |
-| `batch_scrape` | `batch-scrape` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | JSON array with per-URL status, optional summary, and structured envelopes for `--format json` |
+| `batch_scrape` | `batch-scrape` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | JSON array with per-URL status, optional summary, structured envelopes for `--format json`, and optional main-content extraction |
 | `browser_open` | `open` | `GOLOGIN_CLOUD_TOKEN` | Session summary |
 | `browser_snapshot` | `snapshot` | `GOLOGIN_CLOUD_TOKEN` | Snapshot with refs |
 | `browser_click` | `click` | `GOLOGIN_CLOUD_TOKEN` | Action status |
@@ -63,6 +64,23 @@ Markdown on stdout.
 
 Use when:
 Readable article or documentation output is needed.
+
+## read_page
+
+Purpose:
+Read the main content of a docs page or article with the least friction.
+
+CLI:
+
+```bash
+gologin-web-access read "<url>" [--format text|markdown|html] [--source auto|unlocker|browser]
+```
+
+Returns:
+Readable page content on stdout, using the most likely article/docs block.
+
+Use when:
+The user simply wants you to read and summarize one page without debugging rendering paths by hand.
 
 ## scrape_text
 
@@ -223,6 +241,9 @@ Returns:
 
 Use when:
 Several stateless URLs should be fetched in one pass.
+
+Notes:
+Add `--only-main-content` for html, markdown, or text batch runs when the goal is readable docs/article content rather than full page chrome.
 
 ## browser_open
 
