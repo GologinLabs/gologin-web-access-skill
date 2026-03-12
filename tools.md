@@ -19,8 +19,8 @@ Repository:
 | `scrape_url` | `scrape` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Rendered HTML |
 | `scrape_markdown` | `scrape-markdown` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Markdown |
 | `scrape_text` | `scrape-text` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Plain text |
-| `scrape_json` | `scrape-json` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Structured JSON |
-| `batch_scrape` | `batch-scrape` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | JSON array |
+| `scrape_json` | `scrape-json` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Structured JSON with heading levels |
+| `batch_scrape` | `batch-scrape` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | JSON array, optional summary |
 | `browser_open` | `open` | `GOLOGIN_CLOUD_TOKEN` | Session summary |
 | `browser_snapshot` | `snapshot` | `GOLOGIN_CLOUD_TOKEN` | Snapshot with refs |
 | `browser_click` | `click` | `GOLOGIN_CLOUD_TOKEN` | Action status |
@@ -89,7 +89,7 @@ Read structured page metadata through Web Unlocker.
 CLI:
 
 ```bash
-gologin-web-access scrape-json "<url>"
+gologin-web-access scrape-json "<url>" [--fallback browser]
 ```
 
 Returns:
@@ -104,6 +104,14 @@ Returns:
     "canonical": "https://example.com/",
     "meta": {},
     "headings": ["Example Domain"],
+    "headingsByLevel": {
+      "h1": ["Example Domain"],
+      "h2": [],
+      "h3": [],
+      "h4": [],
+      "h5": [],
+      "h6": []
+    },
     "links": [
       {
         "text": "More information",
@@ -125,7 +133,7 @@ Read multiple pages in one CLI call through Web Unlocker.
 CLI:
 
 ```bash
-gologin-web-access batch-scrape "<url-1>" "<url-2>" --format markdown
+gologin-web-access batch-scrape "<url-1>" "<url-2>" --format markdown --retry 3 --backoff-ms 2000 --summary
 ```
 
 Returns:

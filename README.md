@@ -76,8 +76,8 @@ It does not implement scraping or browser automation itself. It delegates to:
 - Read rendered HTML with `scrape_url`
 - Extract readable markdown with `scrape_markdown`
 - Extract plain text with `scrape_text`
-- Extract structured metadata with `scrape_json`
-- Batch multiple pages with `batch_scrape`
+- Extract structured metadata with `scrape_json`, including `headingsByLevel`, and optionally use `--fallback browser` for JS-heavy pages
+- Batch multiple pages with `batch_scrape`, including retry controls and `--summary`
 - Discover candidate pages with `search_web`
 - Map a site's internal links with `map_site`
 - Crawl a site with `crawl_site` and `crawl_site_async`
@@ -129,6 +129,8 @@ Read a page:
 
 ```bash
 gologin-web-access scrape-markdown https://example.com
+gologin-web-access scrape-json https://example.com --fallback browser
+gologin-web-access batch-scrape https://example.com https://example.org --format json --retry 3 --backoff-ms 2000 --summary
 gologin-web-access search "gologin antidetect browser" --limit 5 --source auto
 gologin-web-access map https://example.com --limit 50 --max-depth 2
 gologin-web-access crawl https://example.com --format markdown --limit 20 --max-depth 2
@@ -207,6 +209,7 @@ gologin-web-access click "@e2"
 The skill tool names stay stable even when the underlying CLI commands are shorter. See [`tools.md`](./tools.md) for the exact mapping.
 
 `search_web` now uses automatic multi-path fallback and may include `cacheHit` when a short-lived local search cache was reused.
+`scrape_json` now returns both flat `headings` and `headingsByLevel` buckets.
 
 ## Examples
 
