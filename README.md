@@ -142,11 +142,11 @@ gologin-web-access scrape-markdown https://example.com
 gologin-web-access scrape-text https://docs.browserbase.com/features/stealth-mode
 gologin-web-access scrape-json https://example.com --fallback browser
 gologin-web-access batch-scrape https://docs.browserbase.com/features/contexts https://docs.browserbase.com/features/proxies --format text --only-main-content --summary
-gologin-web-access batch-extract https://example.com https://www.iana.org/help/example-domains --schema ./schema.json --summary
+gologin-web-access batch-extract https://example.com https://www.iana.org/help/example-domains --schema ./schema.json --summary --output ./artifacts/extract.json
 gologin-web-access search "gologin antidetect browser" --limit 5 --source auto
 gologin-web-access map https://example.com --limit 50 --max-depth 2
 gologin-web-access crawl https://docs.browserbase.com --format text --limit 20 --max-depth 2 --only-main-content
-gologin-web-access batch-change-track https://example.com https://example.org --format text --summary
+gologin-web-access batch-change-track https://example.com https://example.org --format text --summary --output ./artifacts/watchlist.json
 ```
 
 Start browser interaction:
@@ -228,12 +228,12 @@ The skill tool names stay stable even when the underlying CLI commands are short
 `read_page` is now the shortest route for "look at this docs page" tasks: it defaults to `--format text --source auto` and targets the most readable content block.
 `scrape_markdown` and `scrape_text` now default to `--source auto`, which can retry through Cloud Browser when Unlocker output still looks like JS-heavy docs chrome.
 `extract_structured` now accepts `--source auto|unlocker|browser` and returns `renderSource`, fallback flags, and request retry metadata.
-`batch_extract` applies the same schema across many URLs and returns one structured result per URL, including fallback and request metadata.
+`batch_extract` applies the same schema across many URLs and returns one structured result per URL, including fallback and request metadata. Add `--output <path>` to save the full result array directly.
 `scrape_json` now returns both flat `headings` and `headingsByLevel` buckets, plus `renderSource`, fallback flags, and request retry metadata.
 `batch_scrape --format json` returns the same structured envelope per URL instead of a stripped-down `data` object.
 `batch_scrape --only-main-content` lets text, markdown, and html batch runs reuse the same readable-content isolation path as `read_page`.
 `crawl_site --only-main-content` applies the same readable-fragment strategy during stateless crawl output for html, markdown, and text formats.
-`batch_track_changes` runs watchlist-style monitoring in one pass and reports `new`, `same`, `changed`, and `failed` counts.
+`batch_track_changes` runs watchlist-style monitoring in one pass and reports `new`, `same`, `changed`, and `failed` counts. Add `--output <path>` to save the full watchlist result directly.
 
 ## Examples
 

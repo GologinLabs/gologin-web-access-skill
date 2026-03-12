@@ -22,9 +22,9 @@ Repository:
 | `scrape_text` | `scrape-text` | `GOLOGIN_WEB_UNLOCKER_API_KEY` or `GOLOGIN_CLOUD_TOKEN` when `--source browser` is forced | Plain text, with `--source auto|unlocker|browser` |
 | `scrape_json` | `scrape-json` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Structured JSON with heading levels, render source, and retry metadata |
 | `batch_scrape` | `batch-scrape` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | JSON array with per-URL status, optional summary, structured envelopes for `--format json`, and optional main-content extraction |
-| `batch_extract` | `batch-extract` | `GOLOGIN_WEB_UNLOCKER_API_KEY` or `GOLOGIN_CLOUD_TOKEN` when `--source browser` is forced | JSON array with one structured extraction result per URL |
+| `batch_extract` | `batch-extract` | `GOLOGIN_WEB_UNLOCKER_API_KEY` or `GOLOGIN_CLOUD_TOKEN` when `--source browser` is forced | JSON array with one structured extraction result per URL, or a saved output file path |
 | `crawl_site` | `crawl` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Site crawl results with `status: ok|partial|failed`, and optional main-content extraction for html, markdown, and text output |
-| `batch_track_changes` | `batch-change-track` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | JSON array with one watchlist-style change result per URL |
+| `batch_track_changes` | `batch-change-track` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | JSON array with one watchlist-style change result per URL, or a saved output file path |
 | `browser_open` | `open` | `GOLOGIN_CLOUD_TOKEN` | Session summary |
 | `browser_snapshot` | `snapshot` | `GOLOGIN_CLOUD_TOKEN` | Snapshot with refs |
 | `browser_click` | `click` | `GOLOGIN_CLOUD_TOKEN` | Action status |
@@ -256,11 +256,11 @@ Apply one selector schema across many known URLs.
 CLI:
 
 ```bash
-gologin-web-access batch-extract "<url-1>" "<url-2>" --schema ./schema.json --summary
+gologin-web-access batch-extract "<url-1>" "<url-2>" --schema ./schema.json --summary --output ./artifacts/extract.json
 ```
 
 Returns:
-JSON array with one structured extraction result per URL, including fallback and request metadata.
+JSON array with one structured extraction result per URL, including fallback and request metadata, or the written output path when `--output` is used.
 
 Use when:
 You already know the target URLs and want deterministic enrichment rather than generic page reading.
@@ -290,11 +290,11 @@ Check many known pages for `new`, `same`, or `changed` results in one pass.
 CLI:
 
 ```bash
-gologin-web-access batch-change-track "<url-1>" "<url-2>" --format text --summary
+gologin-web-access batch-change-track "<url-1>" "<url-2>" --format text --summary --output ./artifacts/watchlist.json
 ```
 
 Returns:
-JSON array with one change result per URL, plus an optional summary line on stderr.
+JSON array with one change result per URL, plus an optional summary line on stderr, or the written output path when `--output` is used.
 
 Use when:
 You have a watchlist of pages to monitor for changes without building a crawler.
