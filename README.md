@@ -85,11 +85,13 @@ It does not implement scraping or browser automation itself. It delegates to:
 - Extract plain text with `scrape_text`, which now defaults to `--source auto`
 - Extract structured metadata with `scrape_json`, including `headingsByLevel`, `renderSource`, and per-request retry metadata, and optionally use `--fallback browser` for JS-heavy pages
 - Batch multiple pages with `batch_scrape`, including retry controls, `--summary`, structured JSON envelopes for `--format json`, and `--only-main-content` for docs/article style output
+- Run one selector schema across many URLs with `batch_extract`
 - Discover candidate pages with `search_web`, including `attempts`, `requestedLimit`, `returnedCount`, `warnings`, and `cacheHit`
 - Map a site's internal links with `map_site`
 - Crawl a site with `crawl_site` and `crawl_site_async`, including `--only-main-content` for readable html/text/markdown crawl output
 - Extract deterministic structured data with `extract_structured`
 - Track page changes with `track_changes`
+- Track a watchlist of pages with `batch_track_changes`
 - Parse PDF, DOCX, XLSX, HTML, or local files with `parse_document`
 - Open and manage live browser sessions with `browser_open`, `browser_sessions`, and `browser_current`
 - Run search inside a live browser session with `browser_search`
@@ -140,9 +142,11 @@ gologin-web-access scrape-markdown https://example.com
 gologin-web-access scrape-text https://docs.browserbase.com/features/stealth-mode
 gologin-web-access scrape-json https://example.com --fallback browser
 gologin-web-access batch-scrape https://docs.browserbase.com/features/contexts https://docs.browserbase.com/features/proxies --format text --only-main-content --summary
+gologin-web-access batch-extract https://example.com https://www.iana.org/help/example-domains --schema ./schema.json --summary
 gologin-web-access search "gologin antidetect browser" --limit 5 --source auto
 gologin-web-access map https://example.com --limit 50 --max-depth 2
 gologin-web-access crawl https://docs.browserbase.com --format text --limit 20 --max-depth 2 --only-main-content
+gologin-web-access batch-change-track https://example.com https://example.org --format text --summary
 ```
 
 Start browser interaction:
@@ -196,12 +200,14 @@ gologin-web-access click "@e2"
 - `scrape_text`
 - `scrape_json`
 - `batch_scrape`
+- `batch_extract`
 - `search_web`
 - `map_site`
 - `crawl_site`
 - `crawl_site_async`
 - `extract_structured`
 - `track_changes`
+- `batch_track_changes`
 - `parse_document`
 
 ### Browser
@@ -222,10 +228,12 @@ The skill tool names stay stable even when the underlying CLI commands are short
 `read_page` is now the shortest route for "look at this docs page" tasks: it defaults to `--format text --source auto` and targets the most readable content block.
 `scrape_markdown` and `scrape_text` now default to `--source auto`, which can retry through Cloud Browser when Unlocker output still looks like JS-heavy docs chrome.
 `extract_structured` now accepts `--source auto|unlocker|browser` and returns `renderSource`, fallback flags, and request retry metadata.
+`batch_extract` applies the same schema across many URLs and returns one structured result per URL, including fallback and request metadata.
 `scrape_json` now returns both flat `headings` and `headingsByLevel` buckets, plus `renderSource`, fallback flags, and request retry metadata.
 `batch_scrape --format json` returns the same structured envelope per URL instead of a stripped-down `data` object.
 `batch_scrape --only-main-content` lets text, markdown, and html batch runs reuse the same readable-content isolation path as `read_page`.
 `crawl_site --only-main-content` applies the same readable-fragment strategy during stateless crawl output for html, markdown, and text formats.
+`batch_track_changes` runs watchlist-style monitoring in one pass and reports `new`, `same`, `changed`, and `failed` counts.
 
 ## Examples
 

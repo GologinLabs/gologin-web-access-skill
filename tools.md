@@ -22,7 +22,9 @@ Repository:
 | `scrape_text` | `scrape-text` | `GOLOGIN_WEB_UNLOCKER_API_KEY` or `GOLOGIN_CLOUD_TOKEN` when `--source browser` is forced | Plain text, with `--source auto|unlocker|browser` |
 | `scrape_json` | `scrape-json` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Structured JSON with heading levels, render source, and retry metadata |
 | `batch_scrape` | `batch-scrape` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | JSON array with per-URL status, optional summary, structured envelopes for `--format json`, and optional main-content extraction |
+| `batch_extract` | `batch-extract` | `GOLOGIN_WEB_UNLOCKER_API_KEY` or `GOLOGIN_CLOUD_TOKEN` when `--source browser` is forced | JSON array with one structured extraction result per URL |
 | `crawl_site` | `crawl` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Site crawl results with `status: ok|partial|failed`, and optional main-content extraction for html, markdown, and text output |
+| `batch_track_changes` | `batch-change-track` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | JSON array with one watchlist-style change result per URL |
 | `browser_open` | `open` | `GOLOGIN_CLOUD_TOKEN` | Session summary |
 | `browser_snapshot` | `snapshot` | `GOLOGIN_CLOUD_TOKEN` | Snapshot with refs |
 | `browser_click` | `click` | `GOLOGIN_CLOUD_TOKEN` | Action status |
@@ -246,6 +248,23 @@ Several stateless URLs should be fetched in one pass.
 Notes:
 Add `--only-main-content` for html, markdown, or text batch runs when the goal is readable docs/article content rather than full page chrome.
 
+## batch_extract
+
+Purpose:
+Apply one selector schema across many known URLs.
+
+CLI:
+
+```bash
+gologin-web-access batch-extract "<url-1>" "<url-2>" --schema ./schema.json --summary
+```
+
+Returns:
+JSON array with one structured extraction result per URL, including fallback and request metadata.
+
+Use when:
+You already know the target URLs and want deterministic enrichment rather than generic page reading.
+
 ## crawl_site
 
 Purpose:
@@ -262,6 +281,23 @@ JSON with per-page crawl output and overall `status`.
 
 Use when:
 You need multi-page stateless extraction, and `--only-main-content` helps when the useful content is inside a specific article/docs region rather than the full page shell.
+
+## batch_track_changes
+
+Purpose:
+Check many known pages for `new`, `same`, or `changed` results in one pass.
+
+CLI:
+
+```bash
+gologin-web-access batch-change-track "<url-1>" "<url-2>" --format text --summary
+```
+
+Returns:
+JSON array with one change result per URL, plus an optional summary line on stderr.
+
+Use when:
+You have a watchlist of pages to monitor for changes without building a crawler.
 
 ## browser_open
 

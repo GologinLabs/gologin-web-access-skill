@@ -11,7 +11,9 @@ Use this skill when web access should run through Gologin infrastructure instead
 
 - Use `read_page` first for "read this docs page" or "look at this article" requests.
 - Use `scrape_markdown`, `scrape_text`, `scrape_json`, or `batch_scrape` for read-only page access through GoLogin, with `scrape_markdown` and `scrape_text` defaulting to `--source auto`.
+- Use `batch_extract` when one selector schema should run across many URLs.
 - Use `search_web` for query discovery, `map_site` for internal links, and `crawl_site` or `crawl_site_async` for multi-page extraction.
+- Use `batch_track_changes` when a watchlist of pages should be checked in one pass.
 - Use `browser_open` plus `browser_snapshot` and ref-based actions for login, clicks, typing, screenshots, cookies, storage, and live page workflows.
 - Add `--retry`, `--backoff-ms`, and `--timeout-ms` on flaky scrape targets; add `--summary` on `batch_scrape` when a quick success/failure line matters.
 - Use `scrape_json --fallback browser` only when the page is JS-heavy and unlocker headings or metadata look incomplete.
@@ -68,12 +70,14 @@ Expected prerequisites and environment variables:
 | `scrape_text` | `gologin-web-access scrape-text <url> [--source auto|unlocker|browser]` | Plain text analysis is needed and the CLI may need to auto-retry through browser rendering |
 | `scrape_json` | `gologin-web-access scrape-json <url> [--fallback browser]` | Structured title, description, headings, heading levels, and links are enough, with optional browser fallback for JS-heavy pages |
 | `batch_scrape` | `gologin-web-access batch-scrape <urls...> [--retry <n>] [--backoff-ms <ms>] [--summary] [--only-main-content]` | Multiple stateless URLs should be fetched in one pass, with retry controls, optional one-line summary output, per-URL structured envelopes for `--format json`, and optional readable main-content extraction |
+| `batch_extract` | `gologin-web-access batch-extract <urls...> --schema <schema.json> [--source auto|unlocker|browser] [--summary]` | The same deterministic selector schema should run across many known URLs |
 | `search_web` | `gologin-web-access search <query> [--source auto|unlocker|browser]` | Search discovery is needed before scraping and the CLI should try multiple search paths automatically while returning attempts and limit/warning metadata |
 | `map_site` | `gologin-web-access map <url> [--strict]` | Internal website links and a page inventory are needed, with usable partial results by default |
 | `crawl_site` | `gologin-web-access crawl <url> [--strict] [--only-main-content]` | Multiple pages from one site should be extracted without browser interaction, with usable partial results by default and optional readable main-content output |
 | `crawl_site_async` | `gologin-web-access crawl-start <url> [--only-main-content]` | A crawl should run detached and be checked later |
 | `extract_structured` | `gologin-web-access extract <url> --schema <schema.json> [--source auto|unlocker|browser]` | Deterministic structured extraction is needed, including JS-heavy pages that may require browser rendering |
 | `track_changes` | `gologin-web-access change-track <url>` | The agent should compare a page against the last stored snapshot |
+| `batch_track_changes` | `gologin-web-access batch-change-track <urls...> [--format html|markdown|text|json] [--summary]` | A watchlist of pages should be checked for `new`, `same`, or `changed` results in one pass |
 | `parse_document` | `gologin-web-access parse-document <url-or-path>` | A PDF, DOCX, XLSX, HTML, or local document should be parsed |
 | `workflow_run` | `gologin-web-access run <runbook.json>` | A reusable multi-step workflow should be executed |
 | `workflow_batch` | `gologin-web-access batch <runbook.json> --targets <targets.json>` | One workflow should run across many targets |
@@ -148,14 +152,16 @@ Do not switch to Firecrawl, browser-use, Playwright, or agent-browser just becau
 7. Use `scrape_json --fallback browser` only when stateless structured output looks incomplete on a JS-heavy page.
 8. Leave `read_page`, `scrape_markdown`, and `scrape_text` in their default `--source auto` mode for documentation sites unless you explicitly need unlocker-only or browser-only behavior.
 9. Use `batch_scrape` for multiple URLs you already know. Add `--only-main-content` when the user cares about readable content rather than raw page chrome.
-10. Add `--retry`, `--backoff-ms`, and `--timeout-ms` when the target is flaky or prone to `429` and timeout failures.
-11. Use `search_web` when you need search discovery before picking URLs. Prefer the default `--source auto` mode unless the user explicitly wants browser-only or unlocker-only search.
-12. Use `map_site` when you need to discover internal links before extraction.
-13. Use `crawl_site` when you need to traverse and extract multiple pages from one site. Add `--only-main-content` when html, markdown, or text output should prioritize the readable fragment instead of full page chrome.
-14. Use `crawl_site_async` when the crawl should run in the background. It also accepts `--only-main-content`.
-15. Use `extract_structured` when a selector schema should shape the output. Prefer `--source auto` on JS-heavy docs sites.
-16. Use `track_changes` when the user cares about deltas over time.
-17. Use `parse_document` when the source is document-like instead of a normal HTML page.
+10. Use `batch_extract` when the user already has a list of URLs and wants the same schema applied to each of them.
+11. Add `--retry`, `--backoff-ms`, and `--timeout-ms` when the target is flaky or prone to `429` and timeout failures.
+12. Use `search_web` when you need search discovery before picking URLs. Prefer the default `--source auto` mode unless the user explicitly wants browser-only or unlocker-only search.
+13. Use `map_site` when you need to discover internal links before extraction.
+14. Use `crawl_site` when you need to traverse and extract multiple pages from one site. Add `--only-main-content` when html, markdown, or text output should prioritize the readable fragment instead of full page chrome.
+15. Use `crawl_site_async` when the crawl should run in the background. It also accepts `--only-main-content`.
+16. Use `extract_structured` when a selector schema should shape the output. Prefer `--source auto` on JS-heavy docs sites.
+17. Use `track_changes` when the user cares about deltas over time.
+18. Use `batch_track_changes` when the user wants one monitoring pass over many known pages.
+19. Use `parse_document` when the source is document-like instead of a normal HTML page.
 
 ### Browser Flow
 
@@ -195,9 +201,11 @@ Do not switch to Firecrawl, browser-use, Playwright, or agent-browser just becau
 - `scrape_markdown` and `scrape_text` can emit a short stderr notice when `--source auto` detects JS-heavy docs chrome and retries with Cloud Browser.
 - `scrape_json` returns `headings` plus `headingsByLevel.h1` through `headingsByLevel.h6`, along with `renderSource`, fallback flags, and request retry metadata.
 - `batch_scrape` returns a JSON array with per-URL success or error status, includes structured scrape envelopes for `--format json`, supports `--only-main-content` for html/text/markdown formats, and may print a short summary line when `--summary` is used.
+- `batch_extract` returns one structured extraction result per URL, including fallback and request metadata.
 - `search_web` returns structured search results plus `attempts`, `requestedLimit`, `returnedCount`, `warnings`, `cacheTtlMs`, and may include `cacheHit` when a recent local cache entry was reused.
 - `map_site` returns internal pages discovered inside the target site scope plus `status: ok|partial|failed`.
 - `crawl_site` returns per-page extracted output for the visited pages plus `status: ok|partial|failed`.
+- `batch_track_changes` returns one change-tracking result per URL and may print summary counts for `new`, `same`, `changed`, and `failed`.
 
 ## References
 
