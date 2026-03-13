@@ -26,6 +26,8 @@ For a one-time local setup without re-exporting env vars in every shell:
 gologin-web-access config init
 ```
 
+Recommended agent setup: persist both `GOLOGIN_WEB_UNLOCKER_API_KEY` and `GOLOGIN_CLOUD_TOKEN` up front so the skill does not stop mid-task to ask for missing credentials.
+
 Repositories:
 
 - Standalone skill: [GologinLabs/gologin-web-access-skill](https://github.com/GologinLabs/gologin-web-access-skill)
@@ -128,9 +130,11 @@ export GOLOGIN_DEFAULT_PROFILE_ID="optional_profile_id"
 
 Setup rules:
 
+- Ask for both `GOLOGIN_WEB_UNLOCKER_API_KEY` and `GOLOGIN_CLOUD_TOKEN` if either one is missing.
 - Scraping commands require `GOLOGIN_WEB_UNLOCKER_API_KEY`
 - Browser commands require `GOLOGIN_CLOUD_TOKEN`
 - `GOLOGIN_DEFAULT_PROFILE_ID` is optional and recommended when you want a stable browser identity
+- Do not treat a missing Web Unlocker key as a reason to silently switch read-only scraping tasks into browser mode.
 
 ## Quickstart
 
