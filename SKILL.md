@@ -62,7 +62,7 @@ Expected prerequisites and environment variables:
 - `GOLOGIN_WEB_UNLOCKER_API_KEY` for scraping tools
 - `GOLOGIN_CLOUD_TOKEN` for browser tools
 - `GOLOGIN_DEFAULT_PROFILE_ID` as an optional default profile for browser sessions
-- Prefer `gologin-web-access config init` for local persistent setup when the user keeps re-exporting env vars in every shell
+- Prefer `gologin-web-access config init` for local persistent setup when the user keeps re-exporting env vars in every shell. It validates both keys by default, and it accepts either `--web-unlocker-api-key` or the shorter alias `--web-unlocker-key`.
 - Recommended agent setup is to configure both keys up front. If either one is missing, ask for both keys before doing runtime work.
 
 ## Tool Map

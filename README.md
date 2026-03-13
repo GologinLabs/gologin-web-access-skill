@@ -26,7 +26,15 @@ For a one-time local setup without re-exporting env vars in every shell:
 gologin-web-access config init
 ```
 
+Useful setup variants:
+
+```bash
+gologin-web-access config init --web-unlocker-api-key wu_... --cloud-token gl_...
+gologin-web-access config init --web-unlocker-key wu_... --cloud-token gl_...
+```
+
 Recommended agent setup: persist both `GOLOGIN_WEB_UNLOCKER_API_KEY` and `GOLOGIN_CLOUD_TOKEN` up front so the skill does not stop mid-task to ask for missing credentials.
+`config init` validates both keys by default so bad credentials fail during setup instead of on the first task. Use `--no-validate` only when the user explicitly wants an offline write.
 
 Repositories:
 
