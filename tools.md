@@ -17,22 +17,22 @@ Repository:
 | Skill tool | CLI command | Requires | Returns |
 | --- | --- | --- | --- |
 | `scrape_url` | `scrape` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Rendered HTML |
-| `read_page` | `read` | `GOLOGIN_WEB_UNLOCKER_API_KEY` or `GOLOGIN_CLOUD_TOKEN` when `--source browser` is forced | Main-content-first html, markdown, or text |
-| `scrape_markdown` | `scrape-markdown` | `GOLOGIN_WEB_UNLOCKER_API_KEY` or `GOLOGIN_CLOUD_TOKEN` when `--source browser` is forced | Markdown, with `--source auto|unlocker|browser` |
-| `scrape_text` | `scrape-text` | `GOLOGIN_WEB_UNLOCKER_API_KEY` or `GOLOGIN_CLOUD_TOKEN` when `--source browser` is forced | Plain text, with `--source auto|unlocker|browser` |
+| `read_page` | `read` | `GOLOGIN_WEB_UNLOCKER_API_KEY` or `GOLOGIN_TOKEN` when `--source browser` is forced | Main-content-first html, markdown, or text |
+| `scrape_markdown` | `scrape-markdown` | `GOLOGIN_WEB_UNLOCKER_API_KEY` or `GOLOGIN_TOKEN` when `--source browser` is forced | Markdown, with `--source auto|unlocker|browser` |
+| `scrape_text` | `scrape-text` | `GOLOGIN_WEB_UNLOCKER_API_KEY` or `GOLOGIN_TOKEN` when `--source browser` is forced | Plain text, with `--source auto|unlocker|browser` |
 | `scrape_json` | `scrape-json` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Structured JSON with heading levels, render source, and retry metadata |
 | `batch_scrape` | `batch-scrape` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | JSON array with per-URL status, optional summary, structured envelopes for `--format json`, and optional main-content extraction |
-| `batch_extract` | `batch-extract` | `GOLOGIN_WEB_UNLOCKER_API_KEY` or `GOLOGIN_CLOUD_TOKEN` when `--source browser` is forced | JSON array with one structured extraction result per URL, or a saved output file path |
+| `batch_extract` | `batch-extract` | `GOLOGIN_WEB_UNLOCKER_API_KEY` or `GOLOGIN_TOKEN` when `--source browser` is forced | JSON array with one structured extraction result per URL, or a saved output file path |
 | `crawl_site` | `crawl` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Site crawl results with `status: ok|partial|failed`, and optional main-content extraction for html, markdown, and text output |
 | `batch_track_changes` | `batch-change-track` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | JSON array with one watchlist-style change result per URL, or a saved output file path |
-| `browser_open` | `open` | `GOLOGIN_CLOUD_TOKEN` | Session summary |
-| `browser_snapshot` | `snapshot` | `GOLOGIN_CLOUD_TOKEN` | Snapshot with refs |
-| `browser_click` | `click` | `GOLOGIN_CLOUD_TOKEN` | Action status |
-| `browser_type` | `type` | `GOLOGIN_CLOUD_TOKEN` | Action status |
-| `browser_screenshot` | `screenshot` | `GOLOGIN_CLOUD_TOKEN` | Screenshot path |
-| `browser_close` | `close` | `GOLOGIN_CLOUD_TOKEN` | Close status |
-| `browser_sessions` | `sessions` | `GOLOGIN_CLOUD_TOKEN` | Session list |
-| `browser_current` | `current` | `GOLOGIN_CLOUD_TOKEN` | Current session summary |
+| `browser_open` | `open` | `GOLOGIN_TOKEN` | Session summary |
+| `browser_snapshot` | `snapshot` | `GOLOGIN_TOKEN` | Snapshot with refs |
+| `browser_click` | `click` | `GOLOGIN_TOKEN` | Action status |
+| `browser_type` | `type` | `GOLOGIN_TOKEN` | Action status |
+| `browser_screenshot` | `screenshot` | `GOLOGIN_TOKEN` | Screenshot path |
+| `browser_close` | `close` | `GOLOGIN_TOKEN` | Close status |
+| `browser_sessions` | `sessions` | `GOLOGIN_TOKEN` | Session list |
+| `browser_current` | `current` | `GOLOGIN_TOKEN` | Current session summary |
 
 ## scrape_url
 

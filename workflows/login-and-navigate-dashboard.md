@@ -6,7 +6,7 @@ Log into a site, land on the dashboard, capture a screenshot, and close the sess
 Prerequisites:
 
 ```bash
-export GOLOGIN_CLOUD_TOKEN="gl_..."
+export GOLOGIN_TOKEN="gl_..."
 export GOLOGIN_DEFAULT_PROFILE_ID="profile_123"
 export APP_EMAIL="user@example.com"
 export APP_PASSWORD="secret"

@@ -29,11 +29,11 @@ gologin-web-access config init
 Useful setup variants:
 
 ```bash
-gologin-web-access config init --web-unlocker-api-key wu_... --cloud-token gl_...
-gologin-web-access config init --web-unlocker-key wu_... --cloud-token gl_...
+gologin-web-access config init --web-unlocker-api-key wu_... --token gl_...
+gologin-web-access config init --web-unlocker-key wu_... --token gl_...
 ```
 
-Recommended agent setup: persist both `GOLOGIN_WEB_UNLOCKER_API_KEY` and `GOLOGIN_CLOUD_TOKEN` up front so the skill does not stop mid-task to ask for missing credentials.
+Recommended agent setup: persist both `GOLOGIN_WEB_UNLOCKER_API_KEY` and `GOLOGIN_TOKEN` up front so the skill does not stop mid-task to ask for missing credentials.
 `config init` validates both keys by default so bad credentials fail during setup instead of on the first task. Use `--no-validate` only when the user explicitly wants an offline write.
 
 Repositories:
@@ -132,15 +132,15 @@ Set environment variables:
 
 ```bash
 export GOLOGIN_WEB_UNLOCKER_API_KEY="your_web_unlocker_key"
-export GOLOGIN_CLOUD_TOKEN="your_cloud_token"
+export GOLOGIN_TOKEN="your_gologin_token"
 export GOLOGIN_DEFAULT_PROFILE_ID="optional_profile_id"
 ```
 
 Setup rules:
 
-- Ask for both `GOLOGIN_WEB_UNLOCKER_API_KEY` and `GOLOGIN_CLOUD_TOKEN` if either one is missing.
+- Ask for both `GOLOGIN_WEB_UNLOCKER_API_KEY` and `GOLOGIN_TOKEN` if either one is missing.
 - Scraping commands require `GOLOGIN_WEB_UNLOCKER_API_KEY`
-- Browser commands require `GOLOGIN_CLOUD_TOKEN`
+- Browser commands require `GOLOGIN_TOKEN`
 - `GOLOGIN_DEFAULT_PROFILE_ID` is optional and recommended when you want a stable browser identity
 - Do not treat a missing Web Unlocker key as a reason to silently switch read-only scraping tasks into browser mode.
 

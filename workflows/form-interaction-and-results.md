@@ -6,7 +6,7 @@ Fill a search form, submit it, inspect the results snapshot, and save a screensh
 Prerequisites:
 
 ```bash
-export GOLOGIN_CLOUD_TOKEN="gl_..."
+export GOLOGIN_TOKEN="gl_..."
 export GOLOGIN_DEFAULT_PROFILE_ID="profile_123"
 ```
 
