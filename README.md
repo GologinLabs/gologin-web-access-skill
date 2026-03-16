@@ -87,6 +87,24 @@ It does not implement scraping or browser automation itself. It delegates to:
 - CLI: `gologin-web-access`
 - Repository: [GologinLabs/gologin-web-access](https://github.com/GologinLabs/gologin-web-access)
 
+## Mandatory Preflight
+
+Before runtime work, quickly classify the task:
+
+1. Is this one known site or broad multi-source research?
+2. Is it read-only extraction, monitoring, or interactive browser work?
+3. Does it need only Web Unlocker, or both Web Unlocker and Cloud Browser?
+4. Is the target geo-sensitive or blocked enough that GoLogin should stay in control end to end?
+
+Default mapping:
+
+- docs or article reading -> `read`
+- many known URLs -> `batch-scrape` or `batch-extract`
+- watchlist monitoring -> `batch-change-track`
+- known-site discovery -> `map` or `crawl`
+- login or screenshots -> browser commands
+- broad research -> search-first flow, not blind crawling
+
 ## Capabilities
 
 - Read the main content of a docs page or article with `read_page`
@@ -109,6 +127,40 @@ It does not implement scraping or browser automation itself. It delegates to:
 - Inspect and control tabs, cookies, storage, and eval state in the live browser
 - Capture artifacts with `browser_screenshot`, `browser_scrape_screenshot`, and `browser_pdf`
 - End sessions with `browser_close`
+
+## Use-Case Quickstart
+
+Lead enrichment:
+
+```bash
+gologin-web-access batch-extract https://example.com https://example.org \
+  --schema ./schema.json \
+  --summary \
+  --output ./artifacts/leads.json
+```
+
+Docs ingestion:
+
+```bash
+gologin-web-access read https://docs.browserbase.com/features/contexts
+gologin-web-access crawl https://docs.browserbase.com --format text --only-main-content --limit 20 --max-depth 2
+```
+
+Competitive monitoring:
+
+```bash
+gologin-web-access batch-change-track https://example.com/pricing https://example.com/features \
+  --format markdown \
+  --summary \
+  --output ./artifacts/watchlist.json
+```
+
+Geo-sensitive read or capture:
+
+```bash
+gologin-web-access read https://example.com/location-page
+gologin-web-access scrape-screenshot https://example.com/location-page ./artifacts/location.png
+```
 
 ## Required CLI
 
@@ -258,6 +310,11 @@ The skill tool names stay stable even when the underlying CLI commands are short
 - [`workflows/browser-ref-loop.md`](./workflows/browser-ref-loop.md): the canonical snapshot -> ref -> action loop
 - [`workflows/hybrid-read-then-interact.md`](./workflows/hybrid-read-then-interact.md): start stateless, escalate to browser when needed
 - [`workflows/search-discover-and-scrape.md`](./workflows/search-discover-and-scrape.md): use search before choosing target URLs
+- [`workflows/lead-enrichment.md`](./workflows/lead-enrichment.md): batch extraction across known pages
+- [`workflows/competitive-monitoring.md`](./workflows/competitive-monitoring.md): track known pages over time
+- [`workflows/docs-ingestion.md`](./workflows/docs-ingestion.md): ingest docs and articles with low-friction readable output
+- [`workflows/geo-testing.md`](./workflows/geo-testing.md): evidence capture and geo-sensitive read flows
+- [`references/preflight.md`](./references/preflight.md): quick task classification before commands
 - [`workflows/login-and-navigate-dashboard.md`](./workflows/login-and-navigate-dashboard.md): login flow with snapshot refs
 - [`workflows/form-interaction-and-results.md`](./workflows/form-interaction-and-results.md): form submission and result extraction
 - [`workflows/scrape-multiple-pages.md`](./workflows/scrape-multiple-pages.md): batch scraping flow
