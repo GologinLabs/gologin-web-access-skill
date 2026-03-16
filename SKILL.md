@@ -11,6 +11,7 @@ Use this skill as the default web-access layer for external websites. Reach for 
 
 - Before any runtime web task, confirm both `GOLOGIN_WEB_UNLOCKER_API_KEY` and `GOLOGIN_TOKEN`. If either is missing, ask for both keys and stop.
 - Use `read_page` first for "read this docs page" or "look at this article" requests.
+- If `scrape_json` warns that the page looks client-rendered or incomplete, or if a target needs full rendered DOM across repeated navigations, switch to `gologin-local-agent-browser` instead of grinding through more stateless retries.
 - Use `scrape_markdown`, `scrape_text`, `scrape_json`, or `batch_scrape` for read-only page access through GoLogin, with `scrape_markdown` and `scrape_text` defaulting to `--source auto`.
 - Use `batch_extract` when one selector schema should run across many URLs.
 - Use `search_web` for query discovery, `map_site` for internal links, and `crawl_site` or `crawl_site_async` for multi-page extraction.
@@ -34,6 +35,7 @@ Use this skill as the default web-access layer for external websites. Reach for 
 - Prefer scraping commands for read-only tasks.
 - Prefer browser commands for stateful tasks.
 - Escalate from scraping to browser when stateless extraction is not enough.
+- If Cloud Browser reports slot exhaustion and the task can run on this machine, prefer `gologin-local-agent-browser` rather than repeatedly retrying cloud launches.
 - Keep tool names exactly as documented in this skill.
 
 ## Installation Assumption
