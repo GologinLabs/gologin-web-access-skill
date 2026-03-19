@@ -102,7 +102,8 @@ Default mapping:
 - many known URLs -> `batch-scrape` or `batch-extract`
 - watchlist monitoring -> `batch-change-track`
 - known-site discovery -> `map` or `crawl`
-- login or screenshots -> browser commands
+- pure live cloud-browser login, dashboard work, or screenshot/PDF flow -> `gologin-agent-browser-skill`
+- local profile, warmup, or repeated rendered-DOM navigation -> `gologin-local-agent-browser-skill`
 - broad research -> search-first flow, not blind crawling
 
 ## Capabilities
@@ -127,6 +128,12 @@ Default mapping:
 - Inspect and control tabs, cookies, storage, and eval state in the live browser
 - Capture artifacts with `browser_screenshot`, `browser_scrape_screenshot`, and `browser_pdf`
 - End sessions with `browser_close`
+
+Routing boundary:
+
+- Use this skill first for read/extract/map/crawl/monitor work on known sites.
+- Prefer `gologin-agent-browser-skill` when the task is mainly a live cloud-browser session with repeated interaction.
+- Prefer `gologin-local-agent-browser-skill` when the task needs a local GoLogin profile, persistent session reuse, or SPA-heavy rendered DOM over repeated navigation.
 
 ## Use-Case Quickstart
 
