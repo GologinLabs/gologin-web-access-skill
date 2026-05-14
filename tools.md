@@ -16,15 +16,15 @@ Repository:
 
 | Skill tool | CLI command | Requires | Returns |
 | --- | --- | --- | --- |
-| `scrape_url` | `scrape` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Rendered HTML |
-| `read_page` | `read` | `GOLOGIN_WEB_UNLOCKER_API_KEY` or `GOLOGIN_TOKEN` when `--source browser` is forced | Main-content-first html, markdown, or text |
-| `scrape_markdown` | `scrape-markdown` | `GOLOGIN_WEB_UNLOCKER_API_KEY` or `GOLOGIN_TOKEN` when `--source browser` is forced | Markdown, with `--source auto|unlocker|browser` |
-| `scrape_text` | `scrape-text` | `GOLOGIN_WEB_UNLOCKER_API_KEY` or `GOLOGIN_TOKEN` when `--source browser` is forced | Plain text, with `--source auto|unlocker|browser` |
-| `scrape_json` | `scrape-json` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Structured JSON with heading levels, render source, and retry metadata |
-| `batch_scrape` | `batch-scrape` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | JSON array with per-URL status, optional summary, structured envelopes for `--format json`, and optional main-content extraction |
-| `batch_extract` | `batch-extract` | `GOLOGIN_WEB_UNLOCKER_API_KEY` or `GOLOGIN_TOKEN` when `--source browser` is forced | JSON array with one structured extraction result per URL, or a saved output file path |
-| `crawl_site` | `crawl` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | Site crawl results with `status: ok|partial|failed`, and optional main-content extraction for html, markdown, and text output |
-| `batch_track_changes` | `batch-change-track` | `GOLOGIN_WEB_UNLOCKER_API_KEY` | JSON array with one watchlist-style change result per URL, or a saved output file path |
+| `scrape_url` | `scrape` | `GOLOGIN_SCRAPING_API_KEY` | Rendered HTML |
+| `read_page` | `read` | `GOLOGIN_SCRAPING_API_KEY` or `GOLOGIN_TOKEN` when `--source browser` is forced | Main-content-first html, markdown, or text |
+| `scrape_markdown` | `scrape-markdown` | `GOLOGIN_SCRAPING_API_KEY` or `GOLOGIN_TOKEN` when `--source browser` is forced | Markdown, with `--source auto|scraping|browser` |
+| `scrape_text` | `scrape-text` | `GOLOGIN_SCRAPING_API_KEY` or `GOLOGIN_TOKEN` when `--source browser` is forced | Plain text, with `--source auto|scraping|browser` |
+| `scrape_json` | `scrape-json` | `GOLOGIN_SCRAPING_API_KEY` | Structured JSON with heading levels, render source, and retry metadata |
+| `batch_scrape` | `batch-scrape` | `GOLOGIN_SCRAPING_API_KEY` | JSON array with per-URL status, optional summary, structured envelopes for `--format json`, and optional main-content extraction |
+| `batch_extract` | `batch-extract` | `GOLOGIN_SCRAPING_API_KEY` or `GOLOGIN_TOKEN` when `--source browser` is forced | JSON array with one structured extraction result per URL, or a saved output file path |
+| `crawl_site` | `crawl` | `GOLOGIN_SCRAPING_API_KEY` | Site crawl results with `status: ok|partial|failed`, and optional main-content extraction for html, markdown, and text output |
+| `batch_track_changes` | `batch-change-track` | `GOLOGIN_SCRAPING_API_KEY` | JSON array with one watchlist-style change result per URL, or a saved output file path |
 | `browser_open` | `open` | `GOLOGIN_TOKEN` | Session summary |
 | `browser_snapshot` | `snapshot` | `GOLOGIN_TOKEN` | Snapshot with refs |
 | `browser_click` | `click` | `GOLOGIN_TOKEN` | Action status |
@@ -37,7 +37,7 @@ Repository:
 ## scrape_url
 
 Purpose:
-Read rendered HTML for one page through Web Unlocker.
+Read rendered HTML for one page through Scraping API.
 
 CLI:
 
@@ -54,12 +54,12 @@ Raw HTML or original page structure is needed.
 ## scrape_markdown
 
 Purpose:
-Read a page as markdown through Web Unlocker.
+Read a page as markdown through Scraping API.
 
 CLI:
 
 ```bash
-gologin-web-access scrape-markdown "<url>" [--source auto|unlocker|browser]
+gologin-web-access scrape-markdown "<url>" [--source auto|scraping|browser]
 ```
 
 Returns:
@@ -76,7 +76,7 @@ Read the main content of a docs page or article with the least friction.
 CLI:
 
 ```bash
-gologin-web-access read "<url>" [--format text|markdown|html] [--source auto|unlocker|browser]
+gologin-web-access read "<url>" [--format text|markdown|html] [--source auto|scraping|browser]
 ```
 
 Returns:
@@ -88,12 +88,12 @@ The user simply wants you to read and summarize one page without debugging rende
 ## scrape_text
 
 Purpose:
-Read a page as plain text through Web Unlocker.
+Read a page as plain text through Scraping API.
 
 CLI:
 
 ```bash
-gologin-web-access scrape-text "<url>" [--source auto|unlocker|browser]
+gologin-web-access scrape-text "<url>" [--source auto|scraping|browser]
 ```
 
 Returns:
@@ -105,7 +105,7 @@ Stripped text is needed for downstream analysis.
 ## scrape_json
 
 Purpose:
-Read structured page metadata through Web Unlocker.
+Read structured page metadata through Scraping API.
 
 CLI:
 
@@ -163,7 +163,7 @@ Metadata, headings, and extracted links are enough.
 ## batch_scrape
 
 Purpose:
-Read multiple pages in one CLI call through Web Unlocker.
+Read multiple pages in one CLI call through Scraping API.
 
 CLI:
 
@@ -218,7 +218,7 @@ Returns:
     "url": "https://example.com/b",
     "ok": false,
     "format": "json",
-    "error": "Web Unlocker request failed with status 503.",
+    "error": "Scraping API request failed with status 503.",
     "status": 503,
     "request": {
       "attemptCount": 2,
@@ -227,13 +227,13 @@ Returns:
         {
           "attempt": 1,
           "status": 429,
-          "error": "Web Unlocker request failed with status 429.",
+          "error": "Scraping API request failed with status 429.",
           "retriable": true
         },
         {
           "attempt": 2,
           "status": 503,
-          "error": "Web Unlocker request failed with status 503.",
+          "error": "Scraping API request failed with status 503.",
           "retriable": false
         }
       ]
@@ -268,7 +268,7 @@ You already know the target URLs and want deterministic enrichment rather than g
 ## crawl_site
 
 Purpose:
-Traverse multiple pages from one site through Web Unlocker.
+Traverse multiple pages from one site through Scraping API.
 
 CLI:
 

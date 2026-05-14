@@ -6,7 +6,7 @@ Extract several pages in one stateless pass.
 Prerequisite:
 
 ```bash
-export GOLOGIN_WEB_UNLOCKER_API_KEY="wu_..."
+export GOLOGIN_SCRAPING_API_KEY="wu_..."
 ```
 
 Command:

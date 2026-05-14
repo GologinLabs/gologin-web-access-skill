@@ -6,7 +6,7 @@ Fetch one page without opening a browser session.
 Prerequisite:
 
 ```bash
-export GOLOGIN_WEB_UNLOCKER_API_KEY="your_web_unlocker_key"
+export GOLOGIN_SCRAPING_API_KEY="your_scraping_api_key"
 ```
 
 Commands:

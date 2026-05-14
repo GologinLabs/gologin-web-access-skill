@@ -27,4 +27,4 @@ Why this flow:
 
 - no clicks are required
 - no browser session is required
-- Web Unlocker is the simplest path
+- Scraping API is the simplest path
